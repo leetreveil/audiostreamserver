@@ -1,0 +1,477 @@
+﻿@media screen and max-width 1024px {
+img.bg {
+left:50%;
+margin-left:-512px;
+}
+}
+
+html {
+border:0;
+font-family:"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+font-size:76%;
+height:100%;
+margin:0;
+max-height:100%;
+overflow:hidden;
+padding:0;
+}
+
+body {
+border:0;
+height:100%;
+margin:0;
+max-height:100%;
+overflow:hidden;
+padding:0;
+}
+
+#head {
+height:70px;
+left:0;
+margin:0;
+position:absolute;
+top:0;
+width:100%;
+z-index:5;
+}
+
+#foot {
+bottom:0;
+display:block;
+height:75px;
+left:0;
+margin:0;
+position:absolute;
+width:100%;
+z-index:5;
+}
+
+#content {
+bottom:0;
+height:100%;
+overflow:hidden;
+position:absolute;
+top:30px;
+width:100%;
+z-index:4;
+}
+
+#head_main {
+left:0;
+margin:0;
+width:100%;
+z-index:5;
+}
+
+#middle_header,#left_header,#right_header {
+left:0;
+position:absolute;
+top:60px;
+z-index:5;
+}
+
+#left1,#albums,#left3 {
+bottom:100px;
+left:0;
+overflow:auto;
+position:absolute;
+top:100px;
+z-index:5;
+}
+
+#searchresults {
+bottom:150px;
+left:0;
+margin-top:50px;
+overflow:auto;
+position:absolute;
+top:0;
+width:100%;
+z-index:5;
+}
+.bold {
+font-size:1.5em;
+font-weight:700;
+}
+
+div.album {
+float:left;
+padding-top:0px;
+padding-right:30px;
+padding-bottom:30px;
+}
+
+div.album p {
+margin-bottom:0;
+margin-left:0;
+margin-top:0;
+max-width:100px;
+overflow:hidden;
+text-align:left;
+white-space:nowrap;
+}
+
+#header_left {
+float:left;
+}
+
+#top_nav {
+float:right;
+font-size:2em;
+margin-right:25px;
+}
+
+#searchwrapper {
+background-image:url('../images/search_box.png');
+background-repeat:no-repeat;
+float:right;
+height:24px;
+margin:20px 25px 0 0;
+padding:0;
+position:relative;
+width:226px;
+}
+
+#searchwrapper form {
+display:inline;
+}
+
+.searchbox {
+background-color:transparent;
+border:0;
+height:22px;
+left:0;
+position:absolute;
+top:0;
+width:226px;
+}
+
+.searchbox_submit {
+background-color:transparent;
+border:0;
+height:16px;
+left:205px;
+position:absolute;
+top:4px;
+width:17px;
+}
+
+a {
+color:#B1B4B6;
+cursor:pointer;
+text-decoration:none;
+}
+
+a:hover {
+color:#B1B4B6;
+text-decoration:none;
+}
+
+a:active {
+outline:none;
+}
+
+a:focus {
+-moz-outline-style:none;
+}
+
+a:link,a:visited {
+color:#828689;
+text-decoration:none;
+}
+
+img.bg {
+height:auto;
+left:0;
+min-height:100%;
+min-width:1024px;
+position:fixed;
+top:0;
+width:100%;
+}
+
+div#content {
+position:relative;
+z-index: 12;
+}
+
+div#head a:link {
+background-color:transparent;
+}
+
+div#head a:hover {
+color:#B1B4B6;
+}
+
+ul.left_list li:hover {
+background-color:#EDEDED;
+}
+
+a.artwork_thumb_link {
+float:left;
+height:100px;
+position:relative;
+width:100px;
+}
+
+a.artwork_thumb_link span.overlay {
+height:100px;
+left:0;
+position:absolute;
+top:0;
+visibility:hidden;
+}
+
+a.artwork_thumb_link:hover span.overlay {
+-moz-box-shadow:0 0 5px #666;
+-webkit-box-shadow:0 0 5px #666;
+box-shadow:0 0 5px #666;
+visibility:visible;
+}
+
+.header_expander {
+float:left;
+margin:0;
+}
+
+div#audio_display {
+left:50%;
+margin-left:-150px;
+margin-top:-20px;
+position:absolute;
+top:50%;
+width:300px;
+}
+
+div#audio_display_track {
+height:10px;
+width:230px;
+}
+
+div.track {
+background-color:#9D9D9D;
+height:5px;
+width:100px;
+}
+
+div.track_position {
+background-color:#000;
+height:100%;
+width:0;
+}
+
+div.track_thumb {
+background-color:#FFF;
+cursor:pointer;
+float:right;
+height:5px;
+position:relative;
+width:1px;
+}
+
+div#audio_controls {
+height:100%;
+margin-top:-20px;
+position:absolute;
+right:0;
+top:50%;
+width:300px;
+}
+
+.transparent {
+-moz-border-radius-bottomleft:5px;
+-moz-border-radius-topleft:5px;
+-webkit-border-bottom-left-radius:5px;
+-webkit-border-top-left-radius:5px;
+background:rgba(000, 000, 000, .85);
+border:1px #FFF solid;
+color:#FFF;
+display:none;
+max-height:450px;
+overflow:auto;
+overflow-x:hidden;
+position:absolute;
+width:300px;
+z-index:7;
+}
+
+
+ul#playlist li {
+color:#FFF;
+font-size:medium;
+height: 100px;
+}
+
+ul#playlist li .playlist_text{
+position:relative;
+display: inline;
+top:50%;
+margin-top: -8px;
+float:right;
+}
+
+ul#playlist li img{
+position:relative;
+display: block;
+top:50%;
+margin-top: -8px;
+float:left;
+}
+
+ul#playlist li:hover {
+background:rgba(255, 255, 2555, .1);
+cursor:pointer;
+}
+
+ul#playlist h3 {
+font-weight:500;
+margin:0;
+margin-botton:3px;
+overflow:hidden;
+white-space:nowrap;
+}
+
+ul#playlist h6 {
+color:Grey;
+font-weight:500;
+margin:0;
+overflow:hidden;
+white-space:nowrap;
+}
+
+* html #content,* html #searchresults {
+height:100%;
+}
+
+#left_header,#left1 {
+left:0;
+width:17%;
+}
+
+#middle_header,#albums {
+left:17%;
+width:83%;
+}
+
+.inner{
+	padding-left:20px;
+}
+
+#right_header,#left3 {
+left:100%;
+width:20%;
+}
+
+ul,ul#playlist {
+list-style-type:none;
+margin:0;
+padding-left:0;
+}
+
+ul.left_list li,ul#search_artists a {
+color:#373A3D;
+font-size:medium;
+cursor: pointer;
+}
+
+div.track:hover,div#audio_display_track_progress:hover {
+cursor:pointer;
+}
+
+#middle_header_sort_mode:hover,.top_nav_links:hover {
+color:Red;
+}
+
+div#preload { display: none; }
+
+#txt_input{
+	display: none;
+	position: absolute;
+	top:50%;
+	left:50%;
+	margin-left: -300px;
+	margin-top: 35px;
+	z-index: 9002;
+	background-color: transparent;
+	background-image: url(../images/textarea_bg.png);
+	background-repeat: repeat;			
+	width: 600px;
+	height: 70px;
+	border: 1px solid #C0C0C0;
+	padding: 5px;
+	font-family: Segoe UI;
+	font-weight: bold;
+	color:white;
+	font-size: 40px;
+	overflow:hidden;
+	resize: none;
+	white-space:nowrap;
+	outline:none;
+}
+
+/* Turn on a 12x12 scrollbar */
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+	padding:0px;
+	border-right:1px solid #B9B9B9;
+}
+ 
+::-webkit-scrollbar-button:vertical {
+
+}
+ 
+/* Turn on single button up on top, and down on bottom */
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+    display: block;
+}
+ 
+/* Turn off the down area up on top, and up area on bottom */
+::-webkit-scrollbar-button:vertical:start:increment,
+::-webkit-scrollbar-button:vertical:end:decrement {
+    display: none;
+}
+ 
+/* Place The scroll down button at the bottom */
+::-webkit-scrollbar-button:vertical:increment {
+	background-image: url('../images/scroll_down.png');
+}
+::-webkit-scrollbar-button:vertical:increment:hover {
+	background-image: url('../images/scroll_down_mouseover.png');
+}
+ 
+/* Place The scroll up button at the up */
+::-webkit-scrollbar-button:vertical:decrement {
+    background-image: url('../images/scroll_up.png');
+}
+::-webkit-scrollbar-button:vertical:decrement:hover {
+    background-image: url('../images/scroll_up_mouseover.png');
+}
+
+ 
+::-webkit-scrollbar-track:vertical {
+
+}
+ 
+/* Top area above thumb and below up button */
+::-webkit-scrollbar-track-piece:vertical:start {
+
+}
+ 
+/* Bottom area below thumb and down button */
+::-webkit-scrollbar-track-piece:vertical:end {
+}
+ 
+/* Track below and above */
+::-webkit-scrollbar-track-piece {
+
+}
+ 
+/* The thumb itself */
+::-webkit-scrollbar-thumb:vertical {
+    background-color: #B9B9B9;
+}
+::-webkit-scrollbar-thumb:vertical:hover{
+    background-color: #000;
+}

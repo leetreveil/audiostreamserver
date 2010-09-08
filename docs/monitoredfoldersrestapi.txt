@@ -1,0 +1,5 @@
+GET localhost:8080/admin/monitoredfolders (lists monitored folders) [Id: folder_1, Path: C:\music, Status: Up-to-date / scanning]
+GET localhost:8080/admin/monitoredfolders/folder_1 [Id: folder_1, Path: C:\music, Status: Up-to-date / scanning]
+DEL localhost:8080/admin/monitoredfolders/folder_1 (deletes all albums associated and stops monitoring )
+POST localhost:8080/admin/monitoredfolders?path=E:\Music (adds a new folder to be monitored)
+DEL localhost:8080/admin/monitoredfolders/ (stops monitoring all folders and deletes all data)

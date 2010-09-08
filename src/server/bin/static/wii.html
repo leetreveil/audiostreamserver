@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>wii test</title>
+		<script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery-jtemplates.js"></script>
+		
+		    <script id="tmpl_left_list" type="text/html">
+		<div style="margin-left:25px" id="left_header">
+			<h3>${Total} ${Header}
+				<img style="padding-left:10px" id="loading_anim_left" src="images/loadinganim.gif" alt="loading"/>
+            </h3>
+		</div>
+		<div id="left1">
+				<ul class="left_list">
+				{{each LeftItems}} 
+					{{tmpl(this) "#tmpl_left_list_item"}}    
+				{{/each}}
+				</ul>
+		</div>
+    </script>
+
+    <script id="tmpl_left_list_item" type="text/html">
+        <a onclick="GetAlbumsFor('${Id}')">
+            <li style="padding-left:25px;height:30px">
+                ${Name}
+            </li>
+        </a>
+    </script>
+	
+	<script id="wii_template" type="text/html">
+		<h2>${Text}</h2>
+	</script>
+	
+	<script id="jtemplate" type="text/html">
+		<h2>{$T.text}</h2>
+	</script>
+		
+		
+		<script type="text/javascript">
+			$(document).ready(function($) {
+				$("#content").append("<h2>hello wii from jquery!</h2>");
+				
+				$.getJSON('db/Artists', { startPoint: 0, pageSize: 5 },
+				function (data) {
+					var dataObject = {
+						Total: data.TotalResults, 
+						Header: name.toUpperCase(), 
+						LeftItems: data.Results 
+					};
+					
+					$("#content").append("<h3>callback successfully called!</h3>");
+					var textToInsert  = '<h2>received: ' + data.TotalResults + 'albums </h2>';	
+					$("#content").append(textToInsert);
+					
+										// the JSON data we want to render
+					var data = {text:'hello jtemplates'};
+					
+					$('#content').setTemplate($("#jtemplate").html());
+					$('#content').processTemplate(data);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h2>this is a non jquery div!</h2>
+		<div id="content">
+			Hello <a class="who" href="#"></a>
+		</div>
+	</body>
+</html>

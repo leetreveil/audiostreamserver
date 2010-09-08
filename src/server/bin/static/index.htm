@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="http-equiv" content="Content-type: text/html; charset=UTF-8"/>
+    <title>audio stream server</title>
+    <link href="static/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body>
+
+
+
+<div>
+	<img id="bgImage" class="bg">
+</div>
+        <div id="head">
+			<a style="position:absolute;top:10px;left:20px" border="0" onclick="LoadPage('Artists')" >
+				<img src="static/images/title.png" width="508" height="50" alt="logo" >
+            </a>
+        </div>
+		
+		<textarea id="txt_input"></textarea>
+
+        <div id="content">
+
+        </div> 
+         
+         
+        <div id="foot">
+            <div style="height:50px;" id="audio_display">
+                <img id="audio_display_artwork" style="float:left" src="static/images/blankartwork.png" width="50" height="50" />
+                <div style="margin-left:10px;height:100%; width:230px;display:inline-block">
+                        <span id="audio_display_artist_title" style="display:block;white-space:nowrap;overflow:hidden;color:Gray"></span>
+
+                        <div id="audio_display_track" style="margin-top:10px;display:block">
+                            <div id="audio_display_track_load" class="track"></div>
+                            <div id="audio_display_track_progress" class="track_position" style="position:absolute;top:25px;height:5px">
+                                <div class="track_thumb" id="audio_display_track_thumb"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="display:block">
+                            <span id="audio_display_currentposition">0:00</span>
+                            <span id="audio_display_duration" style="float:right">0:00</span> 
+                        </div>
+
+                </div>
+            </div>
+            <div id="audio_controls">
+                <div style="width: 50%;margin: 0 auto;height:35px;line-height:35px;text-align:center">
+                    <img id="audio_controls_repeat" style="vertical-align:middle;cursor:pointer" src="static/images/controls_repeat_default.png" width="23" height="23" />
+                    <img id="audio_controls_back" style="vertical-align:middle;cursor:pointer" src="static/images/controls_back_default.png" width="25" height="25" />
+                    <img id="audio_controls_playpause" onclick="PlayPauseAudio()" style="vertical-align:middle;cursor:pointer" src="static/images/controls_play_default.png" width="35" height="35" />
+                    <img id="audio_controls_forward" onclick="PlayNextTrackFromPlaylist()" style="vertical-align:middle;cursor:pointer" src="static/images/controls_forward_default.png" width="25" height="25" />
+                    <img style="vertical-align:middle;cursor:pointer" id="playlist_button" src="static/images/playlist_disabled.png" width="23" height="23"/>
+                </div>
+				<div style="width: 50%;margin: 0 auto;">
+				    <img style="display:inline-block;vertical-align:middle" src="static/images/controls_mute.png" />
+					<div style="display:inline-block;vertical-align:middle" class="track" id="vol_control" >
+					    <div class="track_position" id="vol_control_position" style="width:50%">
+						    <div class="track_thumb" id="vol_control_thumb"></div>
+						</div>
+					</div>
+					<span style="display:inline-block;vertical-align:middle">50</span>
+				</div>
+
+            </div>
+        </div> 
+		
+		<div id="playlist_popup" class="transparent">
+			<ul id="playlist"></ul>
+		</div>
+
+    <script type="text/javascript" src="static/js/jquery-1.4.1.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery.tmpl.js"></script>
+    <script type="text/javascript" src="static/js/site.js"></script>
+	<script type="text/javascript" src="static/js/site_search.js"></script>
+	<script type="text/javascript" src="static/js/site_audio.js"></script>
+    <script type="text/javascript" src="static/js/db_queries.js"></script>
+    <script type="text/javascript" src="static/js/jquery.asyncimages.js"></script>
+	<script type="text/javascript" src="static/js/imageloader.js"></script>
+    <script type="text/javascript" src="static/js/soundmanager2-jsmin.js"></script>
+
+    <script type="text/javascript">
+        soundManager.url = 'static/js/swf/';
+    </script>
+	
+	<script id="playlist_track" type="text/html">
+		<li id="playlist_${Id}" onclick="PlayTrack('${Id}')">
+			<div class="playlist_text" style="margin-left:25px">
+				<h3>${Title}</h3>
+				<h6>${Artist}</h6>
+			</div>
+		</li>
+	</script>
+
+    <script id="tmpl_left_list" type="text/html">
+		<div style="margin-left:20px" id="left_header">
+			<h3>${Total} ${Header}
+				<img style="padding-left:10px" id="loading_anim_left" src="static/images/loadinganim.gif" alt="loading"/>
+            </h3>
+		</div>
+		<div id="left1">
+				<ul class="left_list">
+				{{each LeftItems}} 
+					{{tmpl(this) "#tmpl_left_list_item"}}    
+				{{/each}}
+				</ul>
+		</div>
+    </script>
+
+    <script id="tmpl_left_list_item" type="text/html">
+            <li id="${Id}" style="padding-left:20px;margin-right:2px;height:30px" onclick="GetAlbumsFor('${Id}')">
+				${Name}
+            </li>
+
+    </script>
+
+    <script id="tmpl_header_frame" type="text/html">
+            <div id="top_nav">
+                {{each headers}}
+                    <a class="top_nav_links" {{if active}} style="color:Black" {{/if}} onclick="LoadPage('${orig_text}')">
+                        ${text}
+                    </a>
+                {{/each}}
+            </div>
+			
+			<div id="albums">
+				<div class="inner"></div>
+			</div>
+    </script>
+
+    <script id="tmpl_tracks_list" type="text/html">
+			<div id="left3">
+				<h2 style="overflow:hidden;white-space:nowrap;padding-left:25px" alt="${AlbumTitle}">${AlbumTitle}</h2>
+				<ul class="left_list" style="overflow:hidden;white-space:nowrap" >
+					{{each Tracks}}
+						{{if IsContent}}					
+							<li id="${Content.Id}" style="padding-left:25px" onclick="PlayTrack('${Content.Id}')">
+								<div>
+									<span style="font-size:1.5em;vertical-align:middle;">
+										${Content.TrackNumber}
+									</span>
+									<span style="width:50px;vertical-align:middle">${Content.Title}</span>     
+								</div>
+							</li>
+						{{else}}
+							<h2 style="padding-left:25px">${Content}</h2>
+						{{/if}}
+					{{/each}}
+				</ul>
+			</div>
+    </script>
+	
+	<script id="tmpl_album" type="text/html">
+		<div class="album">
+			<a id="${Id}" class="artwork_thumb_link" onclick="LoadAlbum('${Id}')">
+				<div class="albumOverlay" style="position:absolute;height:100px;display:block;opacity:0">
+					<img src="static/images/actionoverlay.png" width="100" height="100">
+					<img class="album_play_button" style="display:block;position:absolute;bottom:5px;left:35px" src="static/images/album_play_default.png" width="30" height="30" onclick="LoadAlbum('${Id}',true);event.cancelBubble=true">
+				</div>
+				<img class="artwork_thumb" src="/artwork?id=${Id}" width="100" height="100" alt="artwork"/>
+			</a>
+
+			<div style="clear:both;padding-top:5px;">
+				<p style="font-size:11px; color:#373A3D">${Title}</p>
+				<p style="font-size:11px; color:Gray">${SubTitle}</p>
+				<p style="font-size:11px; color:Gray">${SubSubTitle}</p>
+			</div>
+		</div>
+	</script>
+
+	<script id="tmpl_album_header" type="text/html">
+		<h2 style="clear:both;padding-left:10px">${Content}</h2>
+	</script>
+
+    <script id="tmpl_albums_container" type="text/html">
+		<div id="middle_header">
+			<h3 style="padding-left:20px">${Total} <span style="color:#828689">${HeaderText}</span>  ${SortText} 
+				<a id="middle_header_sort_mode" onclick="GetAlbumsSortedBy('${ArtGenId}','${SortMode}',false)">${SortMode}</a>
+				<img id="loading_anim_albums" style="padding-left:10px" src="static/images/loadinganim.gif" alt="loading"/>
+			</h3>
+		</div>
+    </script>
+
+    <script id= "tmpl_search_frame" type="text/html">
+		<div style="margin-left:25px">
+			<span style="font-size:50px;font-weight:bold">${SearchText}</span>
+			<span style="font-size:50px;color:#828689;font-weight:100;">&nbsp;RESULTS</span>
+			<div id="searchResults">
+				<div id="search-artists"></div>
+				<div id="search-albums"></div>
+				<div id="search-tracks"></div>
+			</div>
+		</div>
+    </script>
+
+    <script id="tmpl_search_artists" type="text/html">
+        {{if TotalResults > 0}}
+
+            <h2 style="margin:0;display:inline;">Artists (${TotalResults})</h2>
+			
+			{{if TotalResults > 5}}
+				<a style="margin-left:10px" onclick="GetRestOfSearchResults('artists')">
+					<img style="display:inline" src="static/images/back_small_notselected.png" ></img>
+				</a>
+				<img id="loading_anim_search_artists" style="padding-left:10px" src="static/images/loadinganim.gif" alt="loading"/>				
+			{{/if}}
+
+            <ul id="search_artists" style="clear:both;padding-left:10px">
+				{{tmpl(Results) "#tmpl_search_artist"}}
+            </ul>
+
+        {{/if}}
+    </script>
+	
+	<script id="tmpl_search_artist" type="text/html">
+		<li>
+			<a>${Name}</a> 
+		</li>
+	</script>
+
+    <script id="tmpl_search_albums" type="text/html">
+        {{if TotalResults > 0}}
+            <h2 style="margin:0;display:inline;">Albums (${TotalResults})</h2>
+			<img id="loading_anim_search_albums" style="padding-left:10px" src="static/images/loadinganim.gif" alt="loading"/>	
+            <div id="search_albums"></div>
+        {{/if}}
+    </script>
+
+	<div id="preload">
+		<img src="static/images/blankartwork.png" width="1" height="1" />
+	</div>
+
+</body>
+</html>
