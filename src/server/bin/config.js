@@ -61,6 +61,11 @@ monfolders.save = function(){
 exports.monfolders = monfolders;
 
 
+//setup db folder
+if(!fs.exists('db')){
+	fs.makeDirectory('db');
+}
+
 //setup artwork folder
 if(!fs.exists('db/artwork')){
 	fs.makeDirectory('db/artwork');
