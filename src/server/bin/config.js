@@ -69,6 +69,18 @@ if(!fs.exists('db')){
 //setup artwork folder
 if(!fs.exists('db/artwork')){
 	fs.makeDirectory('db/artwork');
-};
+}
+
+var log = require("ringo/logging").getLogger(module.id);
+
+//check for incompleted folder scans
+for (var i=0; i < monfolders.length; i++){
+	var folder = monfolders[i];
+	
+	if(folder.status == 'SCANNING'){
+		log.info('a previous folder scan did not finish!, rescanning...');
+		require('./folderProcessor').rescanFolder(folder.id);
+	}
+}
 
 

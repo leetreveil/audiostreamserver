@@ -4,9 +4,7 @@ var fs = require("fs");
 var {format} = require("ringo/utils");
 var base64 = require('ringo/base64');
 
-export('processTrack');
-
-function processTrack(filePath){
+exports.processTrack = function(filePath){
 	var tag,track,albumName,albumArtist,album;
 
 	tag = org.jaudiotagger.audio.AudioFileIO.read(new java.io.File(filePath)).getTag();	//get tag data
@@ -45,7 +43,12 @@ function processTrack(filePath){
 		var embeddedArtwork = getArtworkFromMetaData(tag);
 		var renderedImage = embeddedArtwork ? embeddedArtwork : getArtworkFromFileSystem(filePath);
 		if(renderedImage){
-			javax.imageio.ImageIO.write(renderedImage,'png',new java.io.File('db/artwork/' + album.Id + '.png'));
+			try{
+				javax.imageio.ImageIO.write(renderedImage,'png',new java.io.File('db/artwork/' + album.Id + '.png'));
+			}catch(e){
+				log.error(format("error saving {} to file", album.Id + '.png'));
+			}
+
 		}
 		
 		db.albums.push(album);
