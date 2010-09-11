@@ -34,7 +34,6 @@ function processTrack(filePath){
 			Tracks : [track]
 		};
 		
-
 		//lookup artist and if artist is not found assign it a new Id
 		var artistLookup = lookupArtist(albumArtist);
 		album.Artist.Id = artistLookup ? artistLookup.Id : getNewIdFor('artist');
@@ -56,7 +55,7 @@ function processTrack(filePath){
 		//attempts to scan the same folder twice or a track is moved from one folder to another
 		var albumTracks = album.Tracks;
 		var found;
-		for(i = 0; i < albumTracks.length; i++){
+		for(var i = 0; i < albumTracks.length; i++){
 			if(albumTracks[i].Title === track.Title){
 				found = true;
 				break;

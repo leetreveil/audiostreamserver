@@ -10,7 +10,6 @@ var {format} = require("ringo/utils");
 var fs = require("fs");
 
 
-
 exports.monitoredfolders = function (req,id){
 	//admin/monitoredfolders/1
 	if(req.isGet){
@@ -55,6 +54,7 @@ exports.monitoredfolders = function (req,id){
 		}
 		
 		folders.save();
+		db.save();
 		
 		return redirectResponse('/admin/monitoredfolders/');
 	}
@@ -62,13 +62,21 @@ exports.monitoredfolders = function (req,id){
 
 function startMonitoringFolder(path){
 	folders.push({'id' : folders.length +1 , 'path' : path, 'status' : 'SCANNING'});
-	//save details before scan
-	folders.save();
+	folders.save();//save monitored folders before scan
 	var id = folders.length -1;
-	scanFolder(path);
+	
+	var intervalId = setInterval(function(){
+		log.info("persisting database...");
+		db.save();
+	},5000);
+	
+	scanFolder(path,function(){
+		clearInterval(intervalId);
+		db.save();
+	});
+	
 	folders[id].status = "UPTODATE";
-	//save details after scan
-	folders.save();
+	folders.save();//save monitored folders after scan
 	
 	return id;
 }
@@ -98,7 +106,7 @@ function stopMonitoringFolder(id){
 			}
 		}
 		
-		//delete album & artwork
+		//once all tracks are deleted from the album, delete the artwork and the album
 		if(db.albums[i].Tracks.length == 0){
 			log.info('removing album {}',curAlbum.Title);
 			try{
@@ -115,20 +123,21 @@ function stopMonitoringFolder(id){
 	folders.splice(monitoredFolderIndex,1);
 }
 
-function scanFolder(path){
+function scanFolder(path,callback){
 	var exts,listings,tracks;
 	
 	//TODO: extend supported file types
 	listings = listFiles(path,['.mp3']);
 	tracks = [];
 	
-	for (var i = 0; i < listings.length; i++){
-		try{
+	try{
+		for (var i = 0; i < listings.length; i++){
 			var filePath = listings[i];
 			log.info('processing track {} of {}',i,listings.length);
 			tracks.push(processTrack(filePath));
-		}catch(e){
-			log.error(e);
 		}
+		callback.call(this);
+	}catch(e){
+		log.error(e);
 	}
 }
