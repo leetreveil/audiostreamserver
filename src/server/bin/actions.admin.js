@@ -7,7 +7,7 @@ var db = require('./config').database;
 exports.monitoredfolders = function (req,id){
 	if(req.isGet){
 		if(id){
-			return jsonResponse(folders[id -1]);
+			return jsonResponse(folders[id]);
 		}
 		else{
 			return jsonResponse(folders);
@@ -42,7 +42,7 @@ exports.monitoredfolders = function (req,id){
 		else{
 			//if no id is passed then stop monitoring all folders
 			for(var i = folders.length -1; i >= 0; i--){
-				stopMonitoringFolder(folders[i].id);
+				stopMonitoringFolder(i);
 			}
 		}
 		

@@ -79,7 +79,7 @@ for (var i=0; i < monfolders.length; i++){
 	
 	if(folder.status == 'SCANNING'){
 		log.info('a previous folder scan did not finish!, rescanning...');
-		require('./folderProcessor').rescanFolder(folder.id);
+		require('./folderProcessor').rescanFolder(i);
 	}
 }
 

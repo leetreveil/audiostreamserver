@@ -7,41 +7,27 @@ var {format} = require("ringo/utils");
 var fs = require("fs");
 
 exports.startMonitoringFolder = function(path){
-	folders.push({'id' : folders.length +1 , 'path' : path, 'status' : 'SCANNING'});
+	folders.push({'path' : path, 'status' : 'SCANNING'});
 	folders.save();//save monitored folders before scan
-	var id = folders.length -1;
+	var folder = folders[folders.length -1];
 	
-	scanFolder(folders[id].path);
+	scanFolder(folder.path);
 	
-	folders[id].status = "UPTODATE";
+	folder.status = "UPTODATE";
 	folders.save();
 	
-	return id;
+	return folders.length -1;
 }
 
 exports.rescanFolder = function(id){
-	for(var i=0; i < folders.length; i++){
-		var folder = folders[i];
-		if(id == folder.id){
-			scanFolder(folder.path);
-			folder.status = "UPTODATE";
-			folders.save();
-		}
-	}
+	var folder = folders[id];
+	scanFolder(folder.path);
+	folder.status = "UPTODATE";
+	folders.save();
 }
 
 exports.stopMonitoringFolder = function(id){
-	var path;
-	var monitoredFolderIndex;
-	
-	//lookup folder path from id
-	for(var i=0; i< folders.length; i++){
-		if(folders[i].id == id){
-			path = folders[i].path;
-			monitoredFolderIndex = i;
-			break;
-		}
-	}
+	var folder = folders[id];
 	
 	for(var i = db.albums.length -1; i >=0; i--){
 		var curAlbum = db.albums[i];	
@@ -50,7 +36,7 @@ exports.stopMonitoringFolder = function(id){
 		for(var x = curAlbum.Tracks.length -1; x >= 0; x--){
 			var curTrack = curAlbum.Tracks[x];
 			
-			if(curTrack.FilePath.startsWith(path)){
+			if(curTrack.FilePath.startsWith(folder.path)){
 				curAlbum.Tracks.splice(x,1);
 			}
 		}
@@ -70,7 +56,7 @@ exports.stopMonitoringFolder = function(id){
 	}
 	
 	db.save();
-	folders.splice(monitoredFolderIndex,1);
+	folders.splice(id,1);
 }
 
 function scanFolder(path){
