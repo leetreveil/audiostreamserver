@@ -1,3 +1,6 @@
+This project is now dead - I will be moving the project over to nodejs when nodejs works correctly on Windows :)
+
+
 audiostreamserver quick setup instructions
 ================================
 
